@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Login Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+      /* Modern CSS Framework Integration with Performance Optimizations */
+  :root {
+    /* Color System - HSL for better manipulation */
+    --hue-primary: 220;
+    --hue-secondary: 210;
+    --hue-accent: 280;
+
+    /* Primary Colors */
+    --color-primary-50: hsl(var(--hue-primary), 100%, 97%);
+    --color-primary-100: hsl(var(--hue-primary), 95%, 90%);
+    --color-primary-200: hsl(var(--hue-primary), 90%, 80%);
+    --color-primary-500: hsl(var(--hue-primary), 85%, 60%);
+    --color-primary-600: hsl(var(--hue-primary), 80%, 50%);
+    --color-primary-700: hsl(var(--hue-primary), 75%, 40%);
+    --color-primary-900: hsl(var(--hue-primary), 70%, 20%);
+
+    /* Semantic Colors */
+    --color-success: hsl(142, 76%, 36%);
+    --color-warning: hsl(38, 92%, 50%);
+    --color-error: hsl(0, 84%, 60%);
+    --color-info: hsl(199, 89%, 48%);
+
+    /* Neutral Colors */
+    --color-white: hsl(0, 0%, 100%);
+    --color-gray-50: hsl(210, 20%, 98%);
+    --color-gray-100: hsl(220, 14%, 96%);
+    --color-gray-200: hsl(220, 13%, 91%);
+    --color-gray-300: hsl(216, 12%, 84%);
+    --color-gray-400: hsl(218, 11%, 65%);
+    --color-gray-500: hsl(220, 9%, 46%);
+    --color-gray-600: hsl(215, 14%, 34%);
+    --color-gray-700: hsl(217, 19%, 27%);
+    --color-gray-800: hsl(215, 28%, 17%);
+    --color-gray-900: hsl(221, 39%, 11%);
+
+    /* Typography Scale */
+    --font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+    --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+
+    /* Spacing Scale - 8px base */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.25rem;   /* 20px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-10: 2.5rem;   /* 40px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+
+    /* Border Radius Scale */
+    --radius-sm: 0.25rem;
+    --radius-base: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    /* Shadows with CSS filters for better performance */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* Animation Properties */
+    --duration-fast: 150ms;
+    --duration-base: 300ms;
+    --duration-slow: 500ms;
+    --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Layout Properties */
+    --container-max-width: 1200px;
+    --header-height: 4rem;
+    --sidebar-width: 16rem;
+  }
+
+  /* Dark Theme Variables */
+  [data-bs-theme="dark"] {
+    --color-primary-50: hsl(var(--hue-primary), 50%, 10%);
+    --color-primary-100: hsl(var(--hue-primary), 60%, 15%);
+    --color-primary-200: hsl(var(--hue-primary), 70%, 25%);
+    --color-primary-500: hsl(var(--hue-primary), 80%, 60%);
+    --color-primary-600: hsl(var(--hue-primary), 85%, 70%);
+    --color-primary-700: hsl(var(--hue-primary), 90%, 80%);
+    --color-primary-900: hsl(var(--hue-primary), 95%, 90%);
+
+    --color-gray-50: var(--color-gray-900);
+    --color-gray-100: var(--color-gray-800);
+    --color-gray-200: var(--color-gray-700);
+    --color-gray-300: var(--color-gray-600);
+    --color-gray-400: var(--color-gray-500);
+    --color-gray-500: var(--color-gray-400);
+    --color-gray-600: var(--color-gray-300);
+    --color-gray-700: var(--color-gray-200);
+    --color-gray-800: var(--color-gray-100);
+    --color-gray-900: var(--color-gray-50);
+  }
+
+  /* Base Styles */
+  body {
+    font-family: var(--font-family-base);
+    background: linear-gradient(135deg, #4A90E2 0%, #9013FE 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: float 15s ease-in-out infinite, rotate 30s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .login-container {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: var(--space-6);
+    max-width: 28rem;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+    background: linear-gradient(135deg, #4A90E2, #9013FE);
+    padding: var(--space-4);
+    border-radius: var(--radius-base) var(--radius-base) 0 0;
+  }
+
+  .login-header i {
+    font-size: var(--font-size-2xl);
+    color: var(--color-white);
+  }
+
+  .login-header h1 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    color: var(--color-white);
+  }
+
+  .login-header p {
+    font-size: var(--font-size-sm);
+    color: var(--color-white);
+  }
+
+  .form-group {
+    margin-bottom: var(--space-4);
+  }
+
+  .form-label {
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+    display: block;
+    color: var(--color-gray-700);
+  }
+
+  .input-group-text {
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-right: none;
+  }
+
+  .form-control {
+    border: 1px solid var(--color-gray-200);
+    border-left: none;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-base);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .form-control:focus {
+    border-color: var(--color-primary-500);
+    box-shadow: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4A90E2, #9013FE);
+    border: none;
+    padding: var(--space-3) var(--space-6);
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #357ABD, #6B0DDC);
+    transform: translateY(-2px);
+    transition: background-color var(--duration-base), transform var(--duration-base);
+  }
+
+  .theme-toggle-container {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    z-index: 100;
+  }
+
+  #themeIcon {
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    color: var(--color-white);
+  }
+
+  #themeLabel {
+    font-size: var(--font-size-sm);
+    color: var(--color-white);
+  }
+
+  .btn-group-vertical {
+    position: fixed;
+    bottom: var(--space-4);
+    right: var(--space-4);
+  }
+
+  #demoBtn {
+    animation: pulse 2s infinite;
+    background: linear-gradient(135deg, #4A90E2, #9013FE);
+    color: var(--color-white);
+    border: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+    </style>
+  </head>
+  <body>
+
+    <div class="login-container" id="main-content">
+      <div class="login-header">
+        <i class="fas fa-user-shield"></i>
+        <h1>Employee Portal</h1>
+        <p>Please sign in to your account</p>
+      </div>
+
+      <form id="loginForm" autocomplete="off">
+        <!-- Employee Number -->
+        <div class="form-group">
+          <label for="empno" class="form-label">
+            <i class="fas fa-id-badge me-2 text-primary"></i>Employee Number *
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-hashtag text-muted"></i>
+            </span>
+            <input type="text" class="form-control" id="empno" name="empno" placeholder="Enter Employee Number" required>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="fas fa-lock me-2 text-danger"></i>Password *
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-key text-muted"></i>
+            </span>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div id="capsLockWarning" class="caps-lock-warning mb-1" style="display:none;">Caps Lock is ON</div>
+          <div id="passwordStrength" class="password-strength mb-3"></div>
+        </div>
+
+        <!-- Login Button -->
+        <div class="d-grid">
+          <button type="submit" id="loginBtn" class="btn btn-primary">
+            <span id="loginBtnText">Login</span>
+            <span id="loginSpinner" class="spinner" style="display:none;">
+              <span class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+  </body>
+</html>
