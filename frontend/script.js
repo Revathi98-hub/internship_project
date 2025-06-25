@@ -195,7 +195,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const loginData = { empno, password };
 
     try {
-        const response = await fetch('https://backend-jyi3te79k-revathis-projects-e1be93d0.vercel.app/login', {
+        const response = await fetch('http://localhost:5000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)

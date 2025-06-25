@@ -581,7 +581,7 @@ function setupEventListeners() {
 
         try {
             // Send data to backend
-            const response = await fetch('https://backend-jyi3te79k-revathis-projects-e1be93d0.vercel.app/delay', {
+            const response = await fetch('http://localhost:5000/api/delay', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
