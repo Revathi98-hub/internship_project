@@ -171,9 +171,9 @@ const eqptModOptions = {
     'CT-2': ['CHP'],
     'GPL-1': ['GPL'],
     'GPL-2': ['GPL'],
-    'WBRC': [],
-    'STKR': [],
-    'SCR': [],
+    'WBRC': ['NONE'],
+    'STKR': ['NONE'],
+    'SCR': ['NONE'],
   },
   '02': {
     'OT-5': ['OCR'],
@@ -181,8 +181,8 @@ const eqptModOptions = {
     'OT-1': ['OCR'],
     'OT-2': ['OCR'],
     'OT-3': ['OCR'],
-    'BRC': [],
-    'WBRC': [],
+    'BRC': ['NONE'],
+    'WBRC': ['NONE'],
     'OT-4': ['OCR'],
     'LOCP-2': ['LOCP-2'],
   },
@@ -192,9 +192,9 @@ const eqptModOptions = {
     'BATTERY-2': ['BATTERY'],
     'BATTERY-3': ['BATTERY'],
     'BATTERY-4': ['BATTERY'],
-    'CCP': [],
-    'CPP': [],
-    'CSP': [],
+    'CCP': ['NONE'],
+    'CPP': ['NONE'],
+    'CSP': ['NONE'],
   },
   '04': {
     'RMB': ['RMB'],
@@ -206,14 +206,14 @@ const eqptModOptions = {
     'RMPP': ['RMPP'],
   },
   '05': {
-    'PCM': [],
+    'PCM': ['NONE'],
     'F/C-3': ['BF'],
     'F/C-1': ['BF'],
     'F/C-2': ['BF'],
-    'BHS': [],
+    'BHS': ['NONE'],
     'HMDP CR': ['HMDP CR'],
     'LRS CR': ['LRS CR'],
-    'MCS': [],
+    'MCS': ['NONE'],
     'PSY CR': ['PSY CR'],
     'SSY CR': ['SSY CR'],
     'TLRS CR': ['TLRS CR'],
@@ -229,7 +229,7 @@ const eqptModOptions = {
     'CCM-5': ['CCD'],
     'CCM-6': ['CCD'],
     'CCM-7': ['CCD'],
-    'BSY': [],
+    'BSY': ['NONE'],
     'MIXER-1': ['MIXER-1'],
     'MIXER-2': ['MIXER-2'],
     'ALL': ['CONV'],
@@ -251,10 +251,10 @@ const eqptModOptions = {
     'BOILER-3': ['BOILER-3'],
     'BOILER-4': ['BOILER-4'],
     'BOILER-5': ['BOILER-5'],
-    'BPTS': [],
+    'BPTS': ['NONE'],
     'COB-4': ['COB-4'],
-    'GETS': [],
-    'ISB': [],
+    'GETS': ['NONE'],
+    'ISB': ['NONE'],
     'TB-1': ['TB-1'],
     'TB-2': ['TB-2'],
     'TG-1': ['TG-1'],
@@ -265,7 +265,7 @@ const eqptModOptions = {
     'COB-5': ['COB-5'],
     'TG-5': ['TG-5'],
     'BOILER-6': ['BOILER-6'],
-    'NEDO': [],
+    'NEDO': ['NONE'],
     'TB-4': ['TB-4'],
     'CPP-2': ['TG'],
   },
@@ -299,17 +299,17 @@ const eqptModOptions = {
     'ML-1': ['ML-1'],
     'ML-3': ['ML-3'],
     'ML-2': ['ML-2'],
-    'LBSS-7': [],
+    'LBSS-7': ['NONE'],
   },
   '15': {
-    'FK': [],
+    'FK': ['NONE'],
     'FK-1': ['FK-1'],
     'FK-2': ['FK-2'],
     'FK-3': ['FK-3'],
     'FK-4': ['FK-4'],
     'FK-5': ['FK-5'],
     'TBDB PLANT': ['TBDB PLANT'],
-    'SK-1': [],
+    'SK-1': ['NONE'],
     'SK-2': ['SK-2'],
   },
   '16': {
@@ -336,99 +336,99 @@ const eqptModOptions = {
 // --- Master Shop placeholder mapping by sub-equipment/mode ---
 const masterShopOptions = {
     'CHP': ['RMHP'],
-    'GPL': [],
-    'WBRC': [],
-    'STKR': [],
-    'SCR': [],
+    'GPL': ['NONE'],
+    'WBRC': ['NONE'],
+    'STKR': ['NONE'],
+    'SCR': ['NONE'],
     'OCR': ['RMHP'],
     'LOCP': ['LOCP'],
     'LOCP-2': ['LOCP'],
     'BATTERY': ['CO'],
-    'CCP': [],
-    'CPP': [],
-    'CSP': [],
+    'CCP': ['NONE'],
+    'CPP': ['NONE'],
+    'CSP': ['NONE'],
     'RMB': ['RMB'],
     'SP': ['SP'],
-    'BRC': [],
+    'BRC': ['NONE'],
     'M/C-1': ['SP'],
     'M/C-2': ['SP'],
     'M/C-3': ['SP'],
     'RMPP': ['RMPP'],
-    'PCM': [],
+    'PCM': ['NONE'],
     'BF': ['BF'],
-    'BHS': [],
-    'HMDP CR': [],
-    'LRS CR': [],
-    'MCS': [],
-    'PSY CR': [],
-    'SSY CR': [],
-    'TLRS CR': [],
+    'BHS': ['NONE'],
+    'HMDP CR': ['NONE'],
+    'LRS CR': ['NONE'],
+    'MCS': ['NONE'],
+    'PSY CR': ['NONE'],
+    'SSY CR': ['NONE'],
+    'TLRS CR': ['NONE'],
     'CONV': ['SMS'],
     'CCD': ['CCD'],
-    'BSY': [],
-    'MIXER-1': [],
-    'MIXER-2': [],
-    'ALL': [],
+    'BSY': ['NONE'],
+    'MIXER-1': ['NONE'],
+    'MIXER-2': ['NONE'],
+    'ALL': ['NONE'],
     'BAR MILL': ['BAR MILL'],
     'BILLET MILL': ['BILLET MILL'],
     'WRM': ['WRM'],
     'MMSM': ['MMSM'],
-    'TB-5': [],
-    'BOILER-1': [],
-    'BOILER-2': [],
-    'BOILER-3': [],
-    'BOILER-4': [],
-    'BOILER-5': [],
-    'BPTS': [],
-    'COB-4': [],
-    'GETS': [],
-    'ISB': [],
-    'TB-1': [],
-    'TB-2': [],
-    'TG-1': [],
-    'TG-2': [],
-    'TG-3': [],
-    'TG-4': [],
-    'TRT': [],
-    'TG': [],
-    'COB-5': [],
-    'TG-5': [],
-    'BOILER-6': [],
-    'NEDO': [],
-    'TB-4': [],
-    'ASU-1': [],
-    'ASU-2': [],
-    'ASU-3': [],
-    'CWP-1': [],
-    'CWP-2': [],
-    'CWP-3': [],
-    'CWP-4': [],
-    'ASU-4': [],
-    'ASU-5': [],
-    'CH-1': [],
-    'CH-2': [],
-    'PH': [],
-    'AP TRANSCO': [],
-    'LBSS-': [],
-    'LBSS-1': [],
-    'LBSS-2': [],
-    'LBSS-3': [],
-    'LBSS-4': [],
-    'LBSS-5': [],
-    'LBSS-6': [],
-    'ML-1': [],
-    'ML-3': [],
-    'ML-2': [],
-    'LBSS-7': [],
-    'FK': [],
-    'FK-1': [],
-    'FK-2': [],
-    'FK-3': [],
-    'FK-4': [],
-    'FK-5': [],
-    'TBDB PLANT': [],
-    'SK-1': [],
-    'SK-2': [],
+    'TB-5': ['NONE'],
+    'BOILER-1': ['NONE'],
+    'BOILER-2': ['NONE'],
+    'BOILER-3': ['NONE'],
+    'BOILER-4': ['NONE'],
+    'BOILER-5': ['NONE'],
+    'BPTS': ['NONE'],
+    'COB-4': ['NONE'],
+    'GETS': ['NONE'],
+    'ISB': ['NONE'],
+    'TB-1': ['NONE'],
+    'TB-2': ['NONE'],
+    'TG-1': ['NONE'],
+    'TG-2': ['NONE'],
+    'TG-3': ['NONE'],
+    'TG-4': ['NONE'],
+    'TRT': ['NONE'],
+    'TG': ['NONE'],
+    'COB-5': ['NONE'],
+    'TG-5': ['NONE'],
+    'BOILER-6': ['NONE'],
+    'NEDO': ['NONE'],
+    'TB-4': ['NONE'],
+    'ASU-1': ['NONE'],
+    'ASU-2': ['NONE'],
+    'ASU-3': ['NONE'],
+    'CWP-1': ['NONE'],
+    'CWP-2': ['NONE'],
+    'CWP-3': ['NONE'],
+    'CWP-4': ['NONE'],
+    'ASU-4': ['NONE'],
+    'ASU-5': ['NONE'],
+    'CH-1': ['NONE'],
+    'CH-2': ['NONE'],
+    'PH': ['NONE'],
+    'AP TRANSCO': ['NONE'],
+    'LBSS-': ['NONE'],
+    'LBSS-1': ['NONE'],
+    'LBSS-2': ['NONE'],
+    'LBSS-3': ['NONE'],
+    'LBSS-4': ['NONE'],
+    'LBSS-5': ['NONE'],
+    'LBSS-6': ['NONE'],
+    'ML-1': ['NONE'],
+    'ML-3': ['NONE'],
+    'ML-2': ['NONE'],
+    'LBSS-7': ['NONE'],
+    'FK': ['NONE'],
+    'FK-1': ['NONE'],
+    'FK-2': ['NONE'],
+    'FK-3': ['NONE'],
+    'FK-4': ['NONE'],
+    'FK-5': ['NONE'],
+    'TBDB PLANT': ['NONE'],
+    'SK-1': ['NONE'],
+    'SK-2': ['NONE'],
     'CONV2': ['SMS2'],
     'CCD2': ['CCD2'],
     'WRM2': ['WRM2'],
@@ -574,18 +574,32 @@ function setupEventListeners() {
             shopCode: shopCode.value,
             eqptCode: eqptCode.value,
             subequip: subequip.value,
-            delayFrom: delayFrom.value,
-            delayUpto: delayUpto.value,
+            delayFrom: delayFrom.value, // No conversion
+            delayUpto: delayUpto.value, // No conversion
             delayDesc: document.getElementById('delayDesc').value,
         };
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            alert('Form submitted! Data: ' + JSON.stringify(data, null, 2));
-            delayForm.reset();
-            clearBtn.click();
+            // Send data to backend
+            const response = await fetch('http://localhost:5000/api/delay', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                console.log('Calling showCustomAlert: Delay entry saved successfully!');
+                showCustomAlert('Delay entry saved successfully!');
+                delayForm.reset();
+                clearBtn.click();
+            } else {
+                console.log('Calling showCustomAlert: Failed to save delay entry');
+                showCustomAlert('Failed to save delay entry: ' + (result.message || 'Unknown error'));
+            }
         } catch (error) {
-            alert('Error submitting form: ' + error.message);
+            showCustomAlert('Error submitting form: ' + error.message);
         } finally {
             loadingOverlay.classList.remove('show');
         }
@@ -623,6 +637,24 @@ function setupEventListeners() {
         // Initial state
     }
 }
+
+// --- Custom Alert Function ---
+function showCustomAlert(message) {
+    const modal = document.getElementById('customAlert');
+    const msgSpan = document.getElementById('customAlertMsg');
+    const btn = document.getElementById('customAlertBtn');
+    msgSpan.textContent = message;
+    // Fallback: force display flex and opacity
+    modal.style.display = 'flex';
+    modal.style.opacity = '1';
+    modal.style.zIndex = '9999';
+    btn.onclick = function() {
+        modal.style.display = 'none';
+    };
+    // Accessibility: focus OK button
+    btn.focus();
+}
+
 
 // --- On Page Load ---
 window.addEventListener('DOMContentLoaded', function() {

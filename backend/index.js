@@ -61,6 +61,22 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Endpoint to save delay data
+app.post('/api/delay', (req, res) => {
+    const { shopCode, eqptCode, subequip, delayFrom, delayUpto, delayDesc } = req.body;
+    if (!shopCode || !eqptCode || !subequip || !delayFrom || !delayUpto || !delayDesc) {
+        return res.status(400).json({ success: false, message: 'All fields are required.' });
+    }
+    const query = `INSERT INTO delays (shopCode, eqptCode, subequip, delayFrom, delayUpto, delayDesc) VALUES (?, ?, ?, ?, ?, ?)`;
+    db.query(query, [shopCode, eqptCode, subequip, delayFrom, delayUpto, delayDesc], (err, result) => {
+        if (err) {
+            console.error('Error inserting delay:', err);
+            return res.status(500).json({ success: false, message: 'Database error.' });
+        }
+        return res.json({ success: true, message: 'Delay entry saved.' });
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

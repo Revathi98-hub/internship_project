@@ -9,6 +9,55 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
+.custom-alert-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35);
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-alert-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(80,80,120,0.15);
+  padding: 2rem 2.5rem;
+  min-width: 300px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  animation: fadeInScale 0.3s;
+}
+
+.custom-alert-content span {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+#customAlertBtn {
+  background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  transition: background 0.2s;
+}
+
+#customAlertBtn:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #0891b2 100%);
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95);}
+  to { opacity: 1; transform: scale(1);}
+}
+
         /* Enhanced Delay Form Styles */
 :root {
   /* Color Palette */
@@ -910,6 +959,13 @@ body {
             <div class="spinner-ring"></div>
         </div>
         <p class="loading-text">Processing your request...</p>
+    </div>
+    <!-- Custom Alert Modal -->
+    <div id="customAlert" class="custom-alert-modal">
+      <div class="custom-alert-content">
+        <span id="customAlertMsg"></span>
+        <button id="customAlertBtn">OK</button>
+      </div>
     </div>
 </body>
 </html>
