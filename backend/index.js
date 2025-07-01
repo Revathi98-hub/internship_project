@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 const app = express();
 const port = 5000;
@@ -20,36 +21,46 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use(bodyParser.json());
+const sessionStore = new MySQLStore({
+  host: process.env.MYSQLHOST,
+  port: process.env.MYSQLPORT,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE
+});
+
 app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+  key: 'session_cookie_name',
+  secret: 'your_secret_key',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
 }));
 
 // MySQL connection setup
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Change this if your MySQL username is different
-    password:'mysql60024062@', // Change this if your MySQL password is not empty
-    database: 'internship_project' // Change this if your schema name is different
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
 });
 
 db.connect((err) => {
-    if (err) {
-        console.error('❌ Database connection failed:', err.message);
-        process.exit(1); // Stop the server if DB connection fails
-    }
-    console.log('✅ Connected to MySQL database!');
+  if (err) {
+    console.error('❌ Database connection failed:', err.stack);
+    process.exit(1); // Stop the server if DB connection fails
+  }
+  console.log('✅ Connected to database as id ' + db.threadId);
 });
 
 // Session check endpoint
 app.get('/api/session', (req, res) => {
-    if (req.session && req.session.username) {
-        return res.json({ loggedIn: true, username: req.session.username, name: req.session.name });
-    } else {
-        return res.json({ loggedIn: false });
-    }
+  if (req.session && req.session.username) {
+    return res.json({ loggedIn: true, username: req.session.username, name: req.session.name });
+  } else {
+    return res.json({ loggedIn: false });
+  }
 });
 
 // Endpoint to get current user info
