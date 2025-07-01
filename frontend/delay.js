@@ -332,112 +332,8 @@ const eqptModOptions = {
   },
 };
 
-
-// --- Master Shop placeholder mapping by sub-equipment/mode ---
-const masterShopOptions = {
-    'CHP': ['RMHP'],
-    'GPL': ['NONE'],
-    'WBRC': ['NONE'],
-    'STKR': ['NONE'],
-    'SCR': ['NONE'],
-    'OCR': ['RMHP'],
-    'LOCP': ['LOCP'],
-    'LOCP-2': ['LOCP'],
-    'BATTERY': ['CO'],
-    'CCP': ['NONE'],
-    'CPP': ['NONE'],
-    'CSP': ['NONE'],
-    'RMB': ['RMB'],
-    'SP': ['SP'],
-    'BRC': ['NONE'],
-    'M/C-1': ['SP'],
-    'M/C-2': ['SP'],
-    'M/C-3': ['SP'],
-    'RMPP': ['RMPP'],
-    'PCM': ['NONE'],
-    'BF': ['BF'],
-    'BHS': ['NONE'],
-    'HMDP CR': ['NONE'],
-    'LRS CR': ['NONE'],
-    'MCS': ['NONE'],
-    'PSY CR': ['NONE'],
-    'SSY CR': ['NONE'],
-    'TLRS CR': ['NONE'],
-    'CONV': ['SMS'],
-    'CCD': ['CCD'],
-    'BSY': ['NONE'],
-    'MIXER-1': ['NONE'],
-    'MIXER-2': ['NONE'],
-    'ALL': ['NONE'],
-    'BAR MILL': ['BAR MILL'],
-    'BILLET MILL': ['BILLET MILL'],
-    'WRM': ['WRM'],
-    'MMSM': ['MMSM'],
-    'TB-5': ['NONE'],
-    'BOILER-1': ['NONE'],
-    'BOILER-2': ['NONE'],
-    'BOILER-3': ['NONE'],
-    'BOILER-4': ['NONE'],
-    'BOILER-5': ['NONE'],
-    'BPTS': ['NONE'],
-    'COB-4': ['NONE'],
-    'GETS': ['NONE'],
-    'ISB': ['NONE'],
-    'TB-1': ['NONE'],
-    'TB-2': ['NONE'],
-    'TG-1': ['NONE'],
-    'TG-2': ['NONE'],
-    'TG-3': ['NONE'],
-    'TG-4': ['NONE'],
-    'TRT': ['NONE'],
-    'TG': ['NONE'],
-    'COB-5': ['NONE'],
-    'TG-5': ['NONE'],
-    'BOILER-6': ['NONE'],
-    'NEDO': ['NONE'],
-    'TB-4': ['NONE'],
-    'ASU-1': ['NONE'],
-    'ASU-2': ['NONE'],
-    'ASU-3': ['NONE'],
-    'CWP-1': ['NONE'],
-    'CWP-2': ['NONE'],
-    'CWP-3': ['NONE'],
-    'CWP-4': ['NONE'],
-    'ASU-4': ['NONE'],
-    'ASU-5': ['NONE'],
-    'CH-1': ['NONE'],
-    'CH-2': ['NONE'],
-    'PH': ['NONE'],
-    'AP TRANSCO': ['NONE'],
-    'LBSS-': ['NONE'],
-    'LBSS-1': ['NONE'],
-    'LBSS-2': ['NONE'],
-    'LBSS-3': ['NONE'],
-    'LBSS-4': ['NONE'],
-    'LBSS-5': ['NONE'],
-    'LBSS-6': ['NONE'],
-    'ML-1': ['NONE'],
-    'ML-3': ['NONE'],
-    'ML-2': ['NONE'],
-    'LBSS-7': ['NONE'],
-    'FK': ['NONE'],
-    'FK-1': ['NONE'],
-    'FK-2': ['NONE'],
-    'FK-3': ['NONE'],
-    'FK-4': ['NONE'],
-    'FK-5': ['NONE'],
-    'TBDB PLANT': ['NONE'],
-    'SK-1': ['NONE'],
-    'SK-2': ['NONE'],
-    'CONV2': ['SMS2'],
-    'CCD2': ['CCD2'],
-    'WRM2': ['WRM2'],
-    'SBM': ['SBM'],
-    'STM': ['STM']
-};
-
 // --- DOM Elements ---
-let shopCode, eqptCode, subequip, masterShop, clearBtn, delayForm, delayFrom, delayUpto, loadingOverlay;
+let shopCode, eqptCode, subequip, clearBtn, delayForm, delayFrom, delayUpto, loadingOverlay;
 
 function initializeDOMElements() {
     shopCode = document.getElementById('shopCode');
@@ -466,7 +362,14 @@ function getCurrentISTLocalDatetime() {
 }
 
 // --- Dropdown logic ---
+let listenersAttached = false;
+let submitting = false;
+
 function setupEventListeners() {
+    if (listenersAttached) {
+        return; // Prevent attaching multiple times which can lead to duplicate form submissions
+    }
+    listenersAttached = true;
     if (!shopCode || !eqptCode || !subequip || !delayForm || !clearBtn || !delayFrom || !delayUpto || !loadingOverlay) {
         console.error('One or more DOM elements are missing');
         return;
@@ -508,38 +411,20 @@ function setupEventListeners() {
         } else {
             subequip.disabled = true;
         }
-        // Reset and disable masterShop dropdown whenever equipment changes
-        if (masterShop) {
-            masterShop.innerHTML = '<option value="">Select Master Shop</option>';
-            masterShop.disabled = true;
-        }
+
     });
 
     // --- Master Shop logic: enable and populate after subequip selection ---
-    subequip.addEventListener('change', function() {
-        if (!masterShop) return;
-        masterShop.innerHTML = '<option value="">Select Master Shop</option>';
-        const subeq = subequip.value;
-        if (masterShopOptions[subeq] && masterShopOptions[subeq].length > 0) {
-            masterShopOptions[subeq].forEach(shop => {
-                const option = document.createElement('option');
-                option.value = shop;
-                option.textContent = shop;
-                masterShop.appendChild(option);
-            });
-            masterShop.disabled = false;
-        } else {
-            masterShop.disabled = true;
-        }
-    });
+
 
     // --- Date Validation and Duration Update ---
     delayFrom.addEventListener('change', function() {
         if (this.value) {
-            delayUpto.min = this.value; // Set min to prevent earlier times
-            if (delayUpto.value && new Date(delayUpto.value) <= new Date(this.value)) {
+            const minTime = new Date(new Date(this.value).getTime() + 60*60*1000);
+            delayUpto.min = minTime.toISOString().slice(0,16); // html datetime-local value
+            if (delayUpto.value && ( (delayUpto._flatpickr.selectedDates[0] - delayFrom._flatpickr.selectedDates[0]) < 60*60*1000)) {
                 delayUpto.value = ''; // Clear invalid end time
-                alert('End time must be after start time');
+                alert('End time must be at least 1 hour after start time');
             }
         } else {
             delayUpto.min = ''; // Allow any time if start is empty
@@ -549,22 +434,26 @@ function setupEventListeners() {
     delayUpto.addEventListener('change', function() {
         if (this.value && delayFrom.value) {
             const start = new Date(delayFrom.value);
-            const toDate = new Date(this.value);
-            if (toDate <= start) {
+            const toDate = this._flatpickr ? this._flatpickr.selectedDates[0] : new Date(this.value);
+            if (toDate - start < 60*60*1000) {
                 this.value = '';
-                alert('End time must be after start time');
+                alert('End time must be at least 1 hour after start time');
             }
         }
     });
 
     // --- Form Submit Handler ---
     delayForm.addEventListener('submit', async function(e) {
+        if (submitting) return; // guard against double submit
+        submitting = true;
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
         e.preventDefault();
         
         const start = new Date(delayFrom.value);
-        const end = new Date(delayUpto.value);
-        if (end < start) {
-            alert('End time must be after start time');
+        const end = delayUpto._flatpickr ? delayUpto._flatpickr.selectedDates[0] : new Date(delayUpto.value);
+        if (end - start < 60*60*1000) {
+            alert('End time must be at least 1 hour after start time');
             return;
         }
 
@@ -574,9 +463,9 @@ function setupEventListeners() {
             shopCode: shopCode.value,
             eqptCode: eqptCode.value,
             subequip: subequip.value,
-            delayFrom: delayFrom.value, // No conversion
-            delayUpto: delayUpto.value, // No conversion
-            delayDesc: document.getElementById('delayDesc').value,
+            delayFrom: delayFrom.value, 
+            delayUpto: delayUpto.value, 
+            delayDesc: document.getElementById('delayDesc').value
         };
 
         try {
@@ -586,6 +475,7 @@ function setupEventListeners() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include', // Always include credentials for session
                 body: JSON.stringify(data)
             });
             const result = await response.json();
@@ -602,6 +492,8 @@ function setupEventListeners() {
             showCustomAlert('Error submitting form: ' + error.message);
         } finally {
             loadingOverlay.classList.remove('show');
+            submitting = false;
+            if (submitBtn) submitBtn.disabled = false;
         }
     });
 
@@ -618,24 +510,9 @@ function setupEventListeners() {
     });
 
     // --- Logout Button Handler ---
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.href = 'index.html';
-    });
 
-    // Enable masterShop only when subequip is selected
-    const masterShop = document.getElementById('masterShop');
-    if (subequip && masterShop) {
-        subequip.addEventListener('change', function() {
-            if (subequip.value) {
-                masterShop.disabled = false;
-            } else {
-                masterShop.disabled = true;
-            }
-        });
-        // Initial state
-    }
+
+
 }
 
 // --- Custom Alert Function ---
@@ -656,13 +533,35 @@ function showCustomAlert(message) {
 }
 
 
-// --- On Page Load ---
-window.addEventListener('DOMContentLoaded', function() {
+// --- Home Button Navigation ---
+document.addEventListener('DOMContentLoaded', function() {
+    var homeBtn = document.getElementById('homeBtn');
+    if (homeBtn) {
+        homeBtn.addEventListener('click', function() {
+            window.location.href = 'home.html';
+        });
+    }
+});
+
+// --- Session check on page load ---
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const resp = await fetch('http://localhost:5000/api/session', {
+            credentials: 'include'
+        });
+        const session = await resp.json();
+        if (!session.loggedIn) {
+            window.location.href = 'index.html';
+            return;
+        }
+    } catch (e) {
+        window.location.href = 'index.html';
+        return;
+    }
+
     initializeDOMElements();
     setupEventListeners();
-    // Disable masterShop by default
-    const masterShop = document.getElementById('masterShop');
-    if (masterShop) masterShop.disabled = true;
+
     // Initialize flatpickr for Start Time
     flatpickr("#delayFrom", {
         enableTime: true,
@@ -670,7 +569,8 @@ window.addEventListener('DOMContentLoaded', function() {
         defaultDate: getCurrentISTLocalDatetime(),
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length) {
-                delayUpto._flatpickr.set('minDate', selectedDates[0]);
+                const min = new Date(selectedDates[0].getTime() + 60*60*1000); // +1 hour
+                delayUpto._flatpickr.set('minDate', min);
             } else {
                 delayUpto._flatpickr.set('minDate', null);
             }
@@ -684,8 +584,6 @@ window.addEventListener('DOMContentLoaded', function() {
         onChange: function(selectedDates, dateStr, instance) {
         }
     });
-    initializeDOMElements();
-    setupEventListeners();
     
     if (delayFrom && delayUpto) {
         delayFrom.value = getCurrentISTLocalDatetime();

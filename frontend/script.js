@@ -183,12 +183,16 @@ if (loginBtn) {
 }
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    console.log('[Login] Form submitted');
     event.preventDefault();
-    if (loginBtn && loginSpinner && loginBtnText) {
-        loginBtn.disabled = true;
-        loginSpinner.style.display = 'inline-block';
-        loginBtnText.textContent = 'Logging in...';
-    }
+    // Use only one set of variables, and do not assume spinner exists
+    const loginBtn = document.getElementById('loginBtn');
+    const loginBtnText = document.getElementById('loginBtnText');
+    // Spinner is optional
+    const loginSpinner = document.getElementById('loginSpinner');
+    if (loginBtn) loginBtn.disabled = true;
+    if (loginSpinner) loginSpinner.style.display = 'inline-block';
+    if (loginBtnText) loginBtnText.textContent = 'Logging in...';
     const empno = document.getElementById('empno').value.trim();
     const password = document.getElementById('password').value.trim();
 
@@ -197,26 +201,35 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     try {
         const response = await fetch('http://localhost:5000/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
             body: JSON.stringify(loginData)
         });
+        console.log('[Login] Fetch response:', response);
         const result = await response.json();
+        console.log('[Login] Backend result:', result);
         if (result.success) {
-            showBootstrapAlert('Login successful!', 'success');
             setTimeout(() => {
-                console.log('Redirecting to delay.html...');
-                window.location.href = 'delay.html';
+                console.log('[Login] Redirecting to delay.html...');
+                window.location.href = 'home.html';
+                setTimeout(() => {
+                    if (window.location.pathname.indexOf('home.html') === -1) {
+                        console.warn('[Login] Redirect to delay.html failed! Check if delay.html exists in the same directory.');
+                    }
+                }, 2000);
             }, 1200);
         } else {
             showBootstrapAlert(result.message || 'Login failed', 'danger');
+            console.warn('[Login] Backend did not return success:', result);
         }
     } catch (error) {
         showBootstrapAlert('Server error', 'danger');
+        console.error('[Login] Caught JS error:', error);
     } finally {
-        if (loginBtn && loginSpinner && loginBtnText) {
-            loginBtn.disabled = false;
-            loginSpinner.style.display = 'none';
-            loginBtnText.textContent = 'Login';
-        }
+        if (loginBtn) loginBtn.disabled = false;
+        if (loginSpinner) loginSpinner.style.display = 'none';
+        if (loginBtnText) loginBtnText.textContent = 'Login';
     }
 });
