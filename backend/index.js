@@ -12,7 +12,10 @@ const port = 5000;
 
 // CORS middleware must be first
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:8000'],
+  origin: [
+    'http://localhost:8000',
+    'http://localhost:3000'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -22,11 +25,11 @@ app.options('*', cors(corsOptions));
 
 app.use(bodyParser.json());
 const sessionStore = new MySQLStore({
-  host: process.env.MYSQLHOST,
-  port: process.env.MYSQLPORT,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'mysql60024062@',
+  database: 'internship_project'
 });
 
 app.use(session({
@@ -39,11 +42,10 @@ app.use(session({
 
 // MySQL connection setup
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
+  host: 'localhost',
+  user: 'root',
+  password: 'mysql60024062@',
+  database: 'internship_project'
 });
 
 db.connect((err) => {
