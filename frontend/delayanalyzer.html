@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delay Analytics - Enhanced Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        :root {
+            /* Enhanced Color System */
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --secondary-50: #f0fdfa;
+            --secondary-100: #ccfef7;
+            --secondary-200: #99f6e4;
+            --secondary-300: #5eead4;
+            --secondary-400: #2dd4bf;
+            --secondary-500: #14b8a6;
+            --secondary-600: #0d9488;
+            --secondary-700: #0f766e;
+            --secondary-800: #115e59;
+            --secondary-900: #134e4a;
+            
+            --accent-50: #fffbeb;
+            --accent-100: #fef3c7;
+            --accent-200: #fde68a;
+            --accent-300: #fcd34d;
+            --accent-400: #fbbf24;
+            --accent-500: #f59e0b;
+            --accent-600: #d97706;
+            --accent-700: #b45309;
+            --accent-800: #92400e;
+            --accent-900: #78350f;
+            
+            --success-50: #ecfdf5;
+            --success-100: #d1fae5;
+            --success-200: #a7f3d0;
+            --success-300: #6ee7b7;
+            --success-400: #34d399;
+            --success-500: #10b981;
+            --success-600: #059669;
+            --success-700: #047857;
+            --success-800: #065f46;
+            --success-900: #064e3b;
+            
+            --error-50: #fef2f2;
+            --error-100: #fee2e2;
+            --error-200: #fecaca;
+            --error-300: #fca5a5;
+            --error-400: #f87171;
+            --error-500: #ef4444;
+            --error-600: #dc2626;
+            --error-700: #b91c1c;
+            --error-800: #991b1b;
+            --error-900: #7f1d1d;
+            
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Spacing System */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            --shadow-3xl: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-500) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary-400) 0%, var(--primary-600) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-400) 0%, var(--primary-500) 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            
+            /* Typography */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Enhanced Background Effects */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite, drift 25s linear infinite;
+            backdrop-filter: blur(2px);
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            right: 20%;
+            animation-delay: 0s;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        .orb-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -7s;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.1) 0%, transparent 70%);
+        }
+
+        .orb-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 10%;
+            animation-delay: -14s;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+        }
+
+        .orb-4 {
+            width: 120px;
+            height: 120px;
+            top: 30%;
+            left: 5%;
+            animation-delay: -21s;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 70%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-40px) scale(1.1); }
+        }
+
+        @keyframes drift {
+            0% { transform: rotate(0deg) translateX(0px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 40s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            color: white;
+            padding: var(--space-8) var(--space-6);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--space-4);
+            font-weight: 400;
+        }
+
+        nav {
+            margin-top: var(--space-6);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-4);
+        }
+
+        nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-lg);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Main Content */
+        main {
+            padding: var(--space-8) var(--space-6);
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-2xl);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .summary-card:hover::before {
+            opacity: 1;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-3xl);
+        }
+
+        .summary-card .icon {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: var(--space-4);
+            filter: drop-shadow(0 4px 8px rgba(99, 102, 241, 0.3));
+            animation: iconPulse 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes iconPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .summary-card .label {
+            font-weight: 700;
+            color: var(--gray-700);
+            margin-bottom: var(--space-2);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .summary-card .value {
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Enhanced Form Card */
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-2xl);
+            padding: var(--space-10);
+            margin: var(--space-8) auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+        }
+
+        .form-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-3xl);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: var(--space-10);
+        }
+
+        .form-header h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: var(--space-3);
+            letter-spacing: -0.02em;
+        }
+
+        .form-header p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Form Layout */
+        #filterForm {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            position: relative;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            color: var(--gray-800);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: var(--space-2);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .form-group label i {
+            color: var(--primary-500);
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Enhanced Input Styling */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper::before {
+            position: absolute;
+            left: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            z-index: 2;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        .date-wrapper::before {
+            content: '\f073';
+        }
+
+        .select-wrapper::before {
+            content: '\f1ad';
+        }
+
+        .select-wrapper::after {
+            content: '\f107';
+            position: absolute;
+            right: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: var(--space-5) var(--space-6) var(--space-5) var(--space-12);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-2xl);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-lg);
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+        }
+
+        .input-wrapper:focus-within::before {
+            color: var(--primary-500);
+        }
+
+        .select-wrapper:focus-within::after {
+            color: var(--primary-500);
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Enhanced Action Buttons */
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            margin-top: var(--space-8);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-5) var(--space-10);
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Chart Area */
+        .chart-area {
+            position: relative;
+            width: 100%;
+            min-height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-8);
+            padding: var(--space-6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .chart-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.05) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-area:hover::before {
+            opacity: 1;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-8);
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-main {
+            position: relative;
+            height: 100%;
+        }
+
+        .chart-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .insights-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .insights-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: var(--space-4);
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+        }
+
+        .insight-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .insight-dot.primary { background: var(--primary-500); }
+        .insight-dot.secondary { background: var(--secondary-500); }
+        .insight-dot.accent { background: var(--accent-500); }
+
+        .insight-text {
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+
+        .insight-value {
+            font-weight: 700;
+            color: var(--primary-600);
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(99, 102, 241, 0.3);
+            border-top: 4px solid var(--primary-500);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--space-4);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Placeholder */
+        .chart-placeholder {
+            text-align: center;
+            color: var(--gray-500);
+        }
+
+        .chart-placeholder i {
+            font-size: 4rem;
+            opacity: 0.3;
+            margin-bottom: var(--space-4);
+            color: var(--primary-500);
+        }
+
+        .chart-placeholder p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: var(--space-2);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--space-8) 0;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
+            }
+            
+            .chart-main {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            main {
+                padding: var(--space-6) var(--space-4);
+            }
+
+            .form-card {
+                padding: var(--space-6);
+                margin: var(--space-4) auto;
+            }
+
+            #filterForm {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+
+            nav a {
+                justify-content: center;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .chart-area {
+                min-height: 400px;
+            }
+
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .summary-card {
+                padding: var(--space-6);
+            }
+            
+            .summary-card .icon {
+                font-size: 2.5rem;
+            }
+            
+            .chart-area {
+                min-height: 350px;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .hidden { display: none !important; }
+        .visible { display: block !important; }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        <div class="floating-orb orb-4"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <header>
+        <h1>Delay Analytics Dashboard</h1>
+        <p>Visual insights and trends from equipment delay data</p>
+        <nav>
+            <a href="#home">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="#new-delay">
+                <i class="fas fa-plus-circle"></i>
+                New Delay
+            </a>
+            <a href="#reports">
+                <i class="fas fa-file-alt"></i>
+                Delay Report
+            </a>
+            <a href="#logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="icon"><i class="fas fa-clock"></i></div>
+                <div class="label">Total Delays</div>
+                <div id="totalDelays" class="value">127</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <div class="label">Avg. Duration</div>
+                <div id="avgDuration" class="value">4.2h</div>
+            </div>
+            <div class="summary-card">
+                <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="label">This Month</div>
+                <div id="monthDelays" class="value">89</div>
+            </div>
+        </div>
+
+        <!-- Filter and Chart Section -->
+        <section class="form-card">
+            <div class="form-header">
+                <h2>Equipment Delay Analysis</h2>
+                <p>Select a shop code and date range to analyze equipment delay patterns and trends.</p>
+            </div>
+            
+            <form id="filterForm">
+                <div class="form-group">
+                    <label for="dateStart">
+                        <i class="fas fa-calendar-alt"></i>
+                        Start Date
+                    </label>
+                    <div class="input-wrapper date-wrapper">
+                        <input type="date" id="dateStart" name="dateStart" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateEnd">
+                        <i class="fas fa-calendar-check"></i>
+                        End Date
+                    </label>
+                    <div class="input-wrapper date-wrapper">
+                        <input type="date" id="dateEnd" name="dateEnd" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="shopCode">
+                        <i class="fas fa-industry"></i>
+                        Shop Code
+                    </label>
+                    <div class="input-wrapper select-wrapper">
+                        <select id="shopCode" name="shopCode" class="form-select" required>
+                            <option value="">Choose your shop code...</option>
+                            <option value="01">SHOP_CODE 01 - RMHP</option>
+                            <option value="02">SHOP_CODE 02 - RMHP</option>
+                            <option value="03">SHOP_CODE 03 - CO</option>
+                            <option value="04">SHOP_CODE 04 - SP</option>
+                            <option value="05">SHOP_CODE 05 - BF</option>
+                            <option value="06">SHOP_CODE 06 - SMS</option>
+                            <option value="07">SHOP_CODE 07 - BAR MILL</option>
+                            <option value="08">SHOP_CODE 08 - WRM</option>
+                            <option value="09">SHOP_CODE 09 - MMSM</option>
+                            <option value="10">SHOP_CODE 10 - TPP</option>
+                            <option value="11">SHOP_CODE 11 - UTIL</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="analyzeBtn">
+                        <i class="fas fa-chart-bar"></i>
+                        Analyze Data
+                    </button>
+                </div>
+            </form>
+
+            <!-- Chart Area -->
+            <div class="chart-area" id="chartArea">
+                <div class="chart-container" id="chartContainer">
+                    <!-- Loading State -->
+                    <div class="text-center" id="loadingState" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">Analyzing delay data...</p>
+                    </div>
+
+                    <!-- Chart Placeholder -->
+                    <div class="chart-placeholder" id="chartPlaceholder">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Select a shop code and click "Analyze Data"</p>
+                        <p>to view equipment delay analytics</p>
+                    </div>
+
+                    <!-- Chart Grid -->
+                    <div class="chart-grid" id="chartGrid" style="display: none;">
+                        <div class="chart-main">
+                            <canvas id="delayChart"></canvas>
+                        </div>
+                        <div class="chart-sidebar">
+                            <div class="insights-card">
+                                <h3>Key Insights</h3>
+                                <div id="insightsContent">
+                                    <div class="insight-item">
+                                        <div class="insight-dot primary"></div>
+                                        <div class="insight-text">
+                                            <span>Highest Delays:</span>
+                                            <span class="insight-value" id="highestEquipment">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="insight-item">
+                                        <div class="insight-dot secondary"></div>
+                                        <div class="insight-text">
+                                            <span>Equipment Count:</span>
+                                            <span class="insight-value" id="equipmentCount">0 units</span>
+                                        </div>
+                                    </div>
+                                    <div class="insight-item">
+                                        <div class="insight-dot accent"></div>
+                                        <div class="insight-text">
+                                            <span>Avg per Equipment:</span>
+                                            <span class="insight-value" id="avgPerEquipment">0 delays</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>&copy; 2024 Delay Management System. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Equipment options for each shop code
+        const equipmentOptions = {
+            '01': [
+                { code: 'CT-1' },
+                { code: 'CT-2' },
+                { code: 'GPL-1' },
+                { code: 'GPL-2' },
+                { code: 'WBRC' },
+                { code: 'STKR' },
+                { code: 'SCR' },
+            ],
+            '02': [
+                { code: 'OT-5' },
+                { code: 'LOCP' },
+                { code: 'OT-1' },
+                { code: 'OT-2' },
+                { code: 'OT-3' },
+                { code: 'BRC' },
+                { code: 'WBRC' },
+                { code: 'OT-4' },
+                { code: 'LOCP-2' },
+            ],
+            '03': [
+                { code: 'BATTERY-5' },
+                { code: 'BATTERY-1' },
+                { code: 'BATTERY-2' },
+                { code: 'BATTERY-3' },
+                { code: 'BATTERY-4' },
+                { code: 'CCP' },
+                { code: 'CPP' },
+                { code: 'CSP' },
+            ],
+            '04': [
+                { code: 'RMB' },
+                { code: 'M/C-1' },
+                { code: 'M/C-2' },
+                { code: 'BRC' },
+                { code: 'WBRC' },
+                { code: 'M/C-3' },
+                { code: 'RMPP' },
+            ],
+            '05': [
+                { code: 'PCM' },
+                { code: 'F/C-3' },
+                { code: 'F/C-1' },
+                { code: 'F/C-2' },
+                { code: 'BHS' },
+                { code: 'HMDP CR' },
+                { code: 'LRS CR' },
+                { code: 'MCS' },
+                { code: 'PSY CR' },
+                { code: 'SSY CR' },
+                { code: 'TLRS CR' },
+            ],
+            '06': [
+                { code: 'CONV-A' },
+                { code: 'CONV-B' },
+                { code: 'CONV-C' },
+                { code: 'CCM-1' },
+                { code: 'CCM-2' },
+                { code: 'CCM-3' },
+                { code: 'CCM-4' },
+                { code: 'CCM-5' },
+                { code: 'CCM-6' },
+                { code: 'CCM-7' },
+                { code: 'BSY' },
+                { code: 'MIXER-1' },
+                { code: 'MIXER-2' },
+                { code: 'ALL' },
+            ],
+            '07': [
+                { code: 'BAR MILL' },
+                { code: 'BILLET MIL' },
+            ],
+            '08': [
+                { code: 'MILL' },
+            ],
+            '09': [
+                { code: 'MILL' },
+            ],
+            '10': [
+                { code: 'TB-5' },
+                { code: 'BOILER-1' },
+                { code: 'BOILER-2' },
+                { code: 'BOILER-3' },
+                { code: 'BOILER-4' },
+                { code: 'BOILER-5' },
+                { code: 'BPTS' },
+                { code: 'COB-4' },
+                { code: 'GETS' },
+                { code: 'ISB' },
+                { code: 'TB-1' },
+                { code: 'TB-2' },
+                { code: 'TG-1' },
+                { code: 'TG-2' },
+                { code: 'TG-3' },
+                { code: 'TG-4' },
+                { code: 'TRT' },
+                { code: 'COB-5' },
+                { code: 'FK-5' },
+                { code: 'TBDB PLANT' },
+                { code: 'SK-1' },
+                { code: 'SK-2' },
+            ],
+            '11': [
+                { code: 'ASU-1' },
+                { code: 'ASU-2' },
+                { code: 'ASU-3' },
+                { code: 'CWP-1' },
+                { code: 'CWP-2' },
+                { code: 'CWP-3' },
+                { code: 'CWP-4' },
+                { code: 'ASU-4' },
+                { code: 'ASU-5' },
+            ],
+        };
+
+        let currentChart = null;
+
+        // Generate mock delay data for demonstration
+        function generateMockDelayData(shopCode) {
+            const equipment = equipmentOptions[shopCode] || [];
+            const delayData = {};
+            
+            // Generate realistic delay counts (5-45 delays per equipment)
+            equipment.forEach(eq => {
+                delayData[eq.code] = Math.floor(Math.random() * 40) + 5;
+            });
+            
+            // Calculate summary stats
+            const totalDelays = Object.values(delayData).reduce((sum, count) => sum + count, 0);
+            const avgDuration = (Math.random() * 6 + 2).toFixed(1); // 2-8 hours
+            const monthDelays = Math.floor(totalDelays * (0.6 + Math.random() * 0.3)); // 60-90% this month
+            
+            return {
+                data: delayData,
+                summary: {
+                    totalDelays,
+                    avgDuration,
+                    thisMonthDelays: monthDelays
+                }
+            };
+        }
+
+        // Update summary statistics
+        function updateSummaryStats(summary) {
+            document.getElementById('totalDelays').textContent = summary.totalDelays;
+            document.getElementById('avgDuration').textContent = summary.avgDuration + 'h';
+            document.getElementById('monthDelays').textContent = summary.thisMonthDelays;
+        }
+
+        // Update insights
+        function updateInsights(delayData) {
+            const entries = Object.entries(delayData);
+            const sortedEntries = entries.sort(([,a], [,b]) => b - a);
+            const totalDelays = Object.values(delayData).reduce((sum, count) => sum + count, 0);
+            const avgPerEquipment = (totalDelays / entries.length).toFixed(1);
+
+            document.getElementById('highestEquipment').textContent = sortedEntries[0]?.[0] || '-';
+            document.getElementById('equipmentCount').textContent = entries.length + ' units';
+            document.getElementById('avgPerEquipment').textContent = avgPerEquipment + ' delays';
+        }
+
+        // Create equipment delay chart
+        function createEquipmentChart(shopCode, delayData) {
+            try {
+                const canvas = document.getElementById('delayChart');
+                const ctx = canvas.getContext('2d');
+
+                // Destroy existing chart if it exists
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+
+                // Prepare chart data
+                const labels = Object.keys(delayData);
+                const data = Object.values(delayData);
+
+                // Create gradient
+                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)');
+                gradient.addColorStop(1, 'rgba(99, 102, 241, 0.2)');
+
+                // Chart configuration
+                const chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Number of Delays',
+                            data: data,
+                            backgroundColor: gradient,
+                            borderColor: 'rgba(99, 102, 241, 1)',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        size: 12,
+                                        weight: '600',
+                                    },
+                                    color: '#64748B',
+                                    padding: 20,
+                                },
+                            },
+                            title: {
+                                display: true,
+                                text: `Equipment Delays - Shop ${shopCode}`,
+                                font: {
+                                    size: 16,
+                                    weight: '700',
+                                },
+                                color: '#1E293B',
+                                padding: {
+                                    top: 10,
+                                    bottom: 30
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: 'rgba(99, 102, 241, 0.5)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    title: function(context) {
+                                        return `Equipment: ${context[0].label}`;
+                                    },
+                                    label: function(context) {
+                                        return `Delays: ${context.parsed.y}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: '#64748B',
+                                    font: {
+                                        size: 11,
+                                    },
+                                },
+                                grid: {
+                                    color: 'rgba(226, 232, 240, 0.5)',
+                                    drawBorder: false,
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Number of Delays',
+                                    color: '#374151',
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#64748B',
+                                    font: {
+                                        size: 11,
+                                    },
+                                    maxRotation: 45,
+                                },
+                                grid: {
+                                    display: false,
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Equipment Code',
+                                    color: '#374151',
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                        },
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeInOutQuart'
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        }
+                    }
+                };
+
+                // Create chart
+                currentChart = new Chart(ctx, chartConfig);
+
+                // Update insights
+                updateInsights(delayData);
+
+                console.log('Chart created successfully');
+
+            } catch (error) {
+                console.error('Error creating chart:', error);
+                showError('Error creating chart. Please try again.');
+            }
+        }
+
+        // Show loading state
+        function showLoading() {
+            document.getElementById('chartPlaceholder').style.display = 'none';
+            document.getElementById('chartGrid').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'block';
+            
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            document.getElementById('loadingState').style.display = 'none';
+            
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Analyze Data';
+        }
+
+        // Show chart
+        function showChart() {
+            document.getElementById('chartPlaceholder').style.display = 'none';
+            document.getElementById('chartGrid').style.display = 'grid';
+            document.getElementById('chartGrid').classList.add('fade-in');
+        }
+
+        // Show error
+        function showError(message) {
+            console.error(message);
+            document.getElementById('chartPlaceholder').innerHTML = `
+                <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+                <p style="color: #ef4444;">${message}</p>
+            `;
+            document.getElementById('chartPlaceholder').style.display = 'block';
+            document.getElementById('chartGrid').style.display = 'none';
+        }
+
+        // Form submission handler
+        document.getElementById('filterForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const shopCode = document.getElementById('shopCode').value;
+            const dateStart = document.getElementById('dateStart').value;
+            const dateEnd = document.getElementById('dateEnd').value;
+            
+            if (!shopCode) {
+                alert('Please select a shop code');
+                return;
+            }
+
+            if (!dateStart || !dateEnd) {
+                alert('Please select both start and end dates');
+                return;
+            }
+
+            if (new Date(dateStart) > new Date(dateEnd)) {
+                alert('Start date must be before end date');
+                return;
+            }
+
+            try {
+                showLoading();
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Generate mock data
+                const mockData = generateMockDelayData(shopCode);
+                
+                // Update summary stats
+                updateSummaryStats(mockData.summary);
+                
+                // Create chart
+                createEquipmentChart(shopCode, mockData.data);
+                
+                hideLoading();
+                showChart();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                hideLoading();
+                showError('Error loading data. Please try again.');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // Simulate logout
+                alert('Logged out successfully');
+                // In a real app, you would redirect to login page
+                // window.location.href = 'login.html';
+            }
+        });
+
+        // Initialize with current date
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            
+            document.getElementById('dateStart').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('dateEnd').value = today.toISOString().split('T')[0];
+        });
+
+        // Add some interactive animations
+        document.querySelectorAll('.summary-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

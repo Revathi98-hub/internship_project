@@ -89,7 +89,7 @@
             /* Enhanced Animation Properties */
             --duration-ultra-fast: 100ms;
             --duration-fast: 150ms;
-            --duration-base: 300ms;
+            --duration-base:300ms;
             --duration-slow: 500ms;
             --duration-ultra-slow: 1000ms;
             --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -214,7 +214,9 @@
             height: 4px;
             left: 10%;
             animation-duration: 8s;
-            animation-delay: 0s;
+            animation-delay: 0s
+
+;
         }
 
         .particle:nth-child(2) {
@@ -412,7 +414,9 @@
         }
 
         .btn-outline-light:hover {
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.8), rgba(144, 19, 254, 0.8));
+            background: linear-gradient(135
+
+deg, rgba(74, 144, 226, 0.8), rgba(144, 19, 254, 0.8));
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--shadow-lg), 0 10px 30px rgba(74, 144, 226, 0.3);
             border-color: rgba(255, 255, 255, 0.8);
@@ -460,6 +464,10 @@
 
         .card:nth-child(2) {
             animation: cardSlideIn 0.8s var(--ease-bounce) 0.8s both;
+        }
+
+        .card:nth-child(3) {
+            animation: cardSlideIn 0.8s var(--ease-bounce) 1.0s both;
         }
 
         @keyframes cardSlideIn {
@@ -732,63 +740,102 @@
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <span class="navbar-brand">Delay Management</span>
-    <button class="btn btn-outline-light ms-auto" id="logoutBtn">Logout</button>
-  </div>
-</nav>
-
-<main class="d-flex flex-grow-1 align-items-center justify-content-center" style="min-height:70vh;">
-  <div class="row g-4 justify-content-center w-100" style="max-width: 800px;">
-    <div class="col-sm-6 col-md-6 d-flex justify-content-center">
-      <div class="card card-hover w-100" style="max-width:320px;" id="delayFormCard">
-        <div class="card-body text-center">
-          <div class="category-icon"><i class="fas fa-clock"></i></div>
-          <h5 class="card-title">Delay Form</h5>
-          <p class="card-text text-muted">Log a new equipment delay</p>
-        </div>
-      </div>
+    <!-- Floating Particles Background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
     </div>
-    <div class="col-sm-6 col-md-6 d-flex justify-content-center">
-      <div class="card card-hover w-100" style="max-width:320px;" id="delayReportCard">
-        <div class="card-body text-center">
-          <div class="category-icon"><i class="fas fa-chart-bar"></i></div>
-          <h5 class="card-title">Delay Report</h5>
-          <p class="card-text text-muted">View submitted delay entries</p>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand">Delay Management</span>
+            <button class="btn btn-outline-light ms-auto" id="logoutBtn">Logout</button>
         </div>
-      </div>
-    </div>
-  </div>
-</main>
+    </nav>
 
+    <main class="d-flex flex-grow-1 align-items-center justify-content-center" style="min-height:70vh;">
+        <div class="row g-4 justify-content-center w-100" style="max-width: 800px;">
+            <div class="col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="card card-hover w-100" style="max-width:320px;" id="delayFormCard">
+                    <div class="card-body text-center">
+                        <div class="category-icon"><i class="fas fa-clock"></i></div>
+                        <h5 class="card-title">Delay Form</h5>
+                        <p class="card-text text-muted">Log a new equipment delay</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="card card-hover w-100" style="max-width:320px;" id="delayReportCard">
+                    <div class="card-body text-center">
+                        <div class="category-icon"><i class="fas fa-chart-bar"></i></div>
+                        <h5 class="card-title">Delay Report</h5>
+                        <p class="card-text text-muted">View submitted delay entries</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="card card-hover w-100" style="max-width:320px;" id="delayAnalyticsCard">
+                    <div class="card-body text-center">
+                        <div class="category-icon"><i class="fas fa-chart-line"></i></div>
+                        <h5 class="card-title">Delay Analytics</h5>
+                        <p class="card-text text-muted">Visual insights and trends from delay data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-<script>
-(async () => {
-  try {
-    const resp = await fetch('http://localhost:5000/api/session', { credentials: 'include' });
-    const json = await resp.json();
-    if (!json.loggedIn) {
-      window.location.href = 'index.html';
-    }
-  } catch(e){ window.location.href = 'index.html'; }
-})();
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">© 2024 Delay Management System. All rights reserved.</p>
+        </div>
+    </footer>
 
-document.getElementById('delayFormCard').addEventListener('click', () => {
-  window.location.href = 'delay.html';
-});
+    <script>
+        // Session check and authentication
+        (async () => {
+            try {
+                const resp = await fetch('http://localhost:5000/api/session', { credentials: 'include' });
+                const json = await resp.json();
+                if (!json.loggedIn) {
+                    window.location.href = 'index.html';
+                }
+            } catch(e) { 
+                window.location.href = 'index.html'; 
+            }
+        })();
 
-document.getElementById('delayReportCard').addEventListener('click', () => {
-  window.location.href = 'delay_report.html';
-});
+        // Card click handlers
+        document.getElementById('delayFormCard').addEventListener('click', () => {
+            window.location.href = 'delay.html';
+        });
 
-document.getElementById('logoutBtn').addEventListener('click', () => {
-  fetch('http://localhost:5000/logout', { method:'POST', credentials:'include' }).finally(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.href = 'index.html';
-  });
-});
-</script>
+        document.getElementById('delayReportCard').addEventListener('click', () => {
+            window.location.href = 'delay_report.html';
+        });
+
+        document.getElementById('delayAnalyticsCard').addEventListener('click', () => {
+            window.location.href = 'delayanalyzer.html';
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            fetch('http://localhost:5000/logout', { 
+                method: 'POST', 
+                credentials: 'include' 
+            }).finally(() => {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
 </body>
 </html>

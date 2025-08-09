@@ -13,6 +13,8 @@ const port = 5000;
 // CORS middleware must be first
 const corsOptions = {
   origin: [
+    'http://localhost:8080',
+    'http://192.168.29.162:8080',
     'http://localhost:8000',
     'http://localhost:3000'
   ],
